@@ -1,8 +1,8 @@
 name: douyin_flutter
-description: A new flutter plugin project.
+description: Douyin sdk for flutter.
 version: 0.1.3
-author:
-homepage:
+author: laomao <menco.mao@gmail.com>
+homepage: https://github.com/mencomao/douyinsdk.git
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
