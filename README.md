@@ -1,6 +1,7 @@
 # douyin_flutter
 
-A new flutter plugin project.
+抖音sdk flutter版本，未完成，仅用于测试环境.
+持续完善中
 
 ## Getting Started
 
