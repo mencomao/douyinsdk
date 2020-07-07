@@ -49,11 +49,6 @@ public class DouyinFlutterPlugin implements FlutterPlugin, MethodCallHandler,
   private Activity mActivity;
   private Context context;
   
-  // private ResultActivity ra;
-  // private DouyinFlutterPlugin(Activity activity) {
-  //   // 存起来
-  //   mActivity = activity;
-  // }
 
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
@@ -72,7 +67,6 @@ public class DouyinFlutterPlugin implements FlutterPlugin, MethodCallHandler,
   // depending on the user's project. onAttachedToEngine or registerWith must both be defined
   // in the same class.
   public static void registerWith(Registrar registrar) {
-    // DouyinFlutterPlugin.mActivity = registrar.activity();
     DouyinFlutterPlugin.registrar = registrar;
     final DouyinFlutterPlugin plugin = new DouyinFlutterPlugin();
     final MethodChannel channel = new MethodChannel(registrar.messenger(), "douyin_flutter");
@@ -98,8 +92,6 @@ public class DouyinFlutterPlugin implements FlutterPlugin, MethodCallHandler,
       Authorization.Request request = new Authorization.Request();
       request.scope = "user_info";                          // 用户授权时必选权限
       request.state = "ww";
-      request.callerLocalEntry = "com.bytedance.sdk.share.demo.douyinapi.DouYinEntryActivity";
-      // System.out.println("===>login2!");                        // 用于保持请求和回调的状态，授权请求后原样带回给第三方。
       douyinOpenApi.authorize(request);
 
       // result.success(r);
@@ -109,6 +101,15 @@ public class DouyinFlutterPlugin implements FlutterPlugin, MethodCallHandler,
       // douyinOpenApi.handleIntent(apiIntent, this);
       // System.out.println(this.mActivity.getClass());
       // this.mActivity.startActivityForResult(apiIntent, 0);
+    }
+
+    else if (call.method.equals("share")) {
+      DouYinOpenApi douyinOpenApi = DouYinOpenApiFactory.create(this.mActivity);
+
+      // 初始化资源路径，路径请提供绝对路径.demo里有获取绝对路径的util代码
+      Share.Request request = new Share.Request();
+
+      douyinOpenApi.share(request);
     }
 
     else {
@@ -124,7 +125,6 @@ public class DouyinFlutterPlugin implements FlutterPlugin, MethodCallHandler,
 
   @Override
   public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
-    System.out.println("===>login22222!");
     if (requestCode == 0) {
 
       return true;
@@ -158,33 +158,5 @@ public class DouyinFlutterPlugin implements FlutterPlugin, MethodCallHandler,
   public void onDetachedFromActivity() {
     // TODO: your plugin is no longer associated with an Activity. Clean up
     // references.
-  }
-
-  // @Override
-  // public void onReq(BaseReq req) {
-
-  // }
-
-  // @Override
-  // public void onResp(BaseResp resp) {
-  //   // 授权成功可以获得authCode
-  //   // if (resp.getType() == CommonConstants.ModeType.SEND_AUTH_RESPONSE) {
-  //   //   Authorization.Response response = (Authorization.Response) resp;
-  //   //   if (resp.isSuccess()) {
-  //   //     Toast.makeText(this, "授权成功，获得权限：" + response.grantedPermissions, Toast.LENGTH_LONG).show();
-
-  //   //   } else {
-  //   //     Toast.makeText(this, "授权失败" + response.grantedPermissions, Toast.LENGTH_LONG).show();
-  //   //   }
-  //   //   finish();
-  //   // }
-  // }
-
-  // @Override
-  // public void onErrorIntent(Intent intent) {
-  //   // 错误数据
-  //   // Toast.makeText(this, "intent出错啦", Toast.LENGTH_LONG).show();
-  //   // finish();
-  // }
-  
+  }  
 }

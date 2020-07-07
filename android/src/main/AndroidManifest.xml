@@ -10,6 +10,6 @@
         <activity
             android:name=".DouYinEntryActivity"
             android:exported="true"
-            android:launchMode="singleTask"></activity>
+            android:launchMode="singleInstance"></activity>
     </application>
 </manifest>

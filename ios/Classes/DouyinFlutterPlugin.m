@@ -41,6 +41,7 @@
     
     DouyinOpenSDKAuthRequest *req = [[DouyinOpenSDKAuthRequest alloc] init];
     req.permissions = [NSOrderedSet orderedSetWithObject:@"user_info"];
+    
     UIViewController *rootViewController =
       [UIApplication sharedApplication].delegate.window.rootViewController;
     [req sendAuthRequestViewController:rootViewController completeBlock:^(BDOpenPlatformAuthResponse * _Nonnull resp) {
@@ -56,27 +57,31 @@
   // douyin share 只能分享图片或者视频
   else if ([@"share" isEqualToString:call.method]) {
     NSString* share_type= arguments[@"share_type"];
-    NSArray *data = [NSArray array];
+    NSMutableArray *data = [NSMutableArray array];
+
+    [data addObject:arguments[@"video_path"]];
     
     NSLog(@"This here");
+    NSLog(@"path %@",arguments[@"video_path"]);
     DouyinOpenSDKShareRequest *req = [[DouyinOpenSDKShareRequest alloc] init];
     if ([@"image" isEqualToString:share_type]) {
       req.mediaType = BDOpenPlatformShareMediaTypeImage;
     } else {
       req.mediaType = BDOpenPlatformShareMediaTypeVideo;
     }
-    req.localIdentifiers = nil;
-    req.hashtag = @"变脸挑战";
+    req.localIdentifiers = data;
+    // req.hashtag = @"变脸挑战";
     req.state = @"a47e57c6c559acb88a9569da66ee5f65e0f779c9";
     NSLog(@"This here1");
     [req sendShareRequestWithCompleteBlock:^(BDOpenPlatformShareResponse * _Nonnull respond) {
         NSString *alertString = nil;
-        if (respond.isSucceed) {
+        NSLog(@"This here2222");
+        if (respond.errCode == 0) {
             //  Share Succeed
             alertString = [NSString stringWithFormat:@"Share Success"];
         } else{
             //  Share failed
-            alertString = [NSString stringWithFormat:@"Share failed"];
+            alertString = [NSString stringWithFormat:@"Share failed error code : %@ , error msg : %@", @(respond.errCode), respond.errString];
         }
         NSLog(@"This here2");
         result(alertString);

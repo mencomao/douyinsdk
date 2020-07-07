@@ -39,7 +39,7 @@ class DouyinFlutter {
 
   static Future<dynamic> share(Map<String, dynamic> arguments) async {
     arguments['share_type'] = arguments['share_type'] ?? 'image';
-    arguments['data'] = arguments['data'] ?? '';
+    arguments['video_path'] = arguments['video_path'] ?? '';
     arguments['tag'] = arguments['tag'] ?? '';
     arguments['state'] = arguments['state'] ?? '';
 

@@ -1,15 +1,27 @@
 PODS:
   - BytedanceOpenPlatformSDK (3.0.0.5)
-  - douyin_flutter (0.1.3):
+  - douyin_flutter (0.1.4):
     - DouyinOpenSDK (~> 3.0.0)
     - Flutter
   - DouyinOpenSDK (3.0.0):
     - BytedanceOpenPlatformSDK (= 3.0.0.5)
   - Flutter (1.0.0)
+  - gallery_saver (0.0.1):
+    - Flutter
+  - path_provider (0.0.1):
+    - Flutter
+  - path_provider_linux (0.0.1):
+    - Flutter
+  - path_provider_macos (0.0.1):
+    - Flutter
 
 DEPENDENCIES:
   - douyin_flutter (from `.symlinks/plugins/douyin_flutter/ios`)
   - Flutter (from `Flutter`)
+  - gallery_saver (from `.symlinks/plugins/gallery_saver/ios`)
+  - path_provider (from `.symlinks/plugins/path_provider/ios`)
+  - path_provider_linux (from `.symlinks/plugins/path_provider_linux/ios`)
+  - path_provider_macos (from `.symlinks/plugins/path_provider_macos/ios`)
 
 SPEC REPOS:
   trunk:
@@ -21,12 +33,24 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/douyin_flutter/ios"
   Flutter:
     :path: Flutter
+  gallery_saver:
+    :path: ".symlinks/plugins/gallery_saver/ios"
+  path_provider:
+    :path: ".symlinks/plugins/path_provider/ios"
+  path_provider_linux:
+    :path: ".symlinks/plugins/path_provider_linux/ios"
+  path_provider_macos:
+    :path: ".symlinks/plugins/path_provider_macos/ios"
 
 SPEC CHECKSUMS:
   BytedanceOpenPlatformSDK: be0f3edd84e2013cf3d56603405d7b87b6d0f70d
-  douyin_flutter: 9b2c07ab518b0c6be1fa150f44f5cdf2d48c553d
+  douyin_flutter: 3130313e372838ec075c0ea1351451c585fe4a57
   DouyinOpenSDK: 2c74bf4dd58188319d11892653b17736e1eee305
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  gallery_saver: 9fc173c9f4fcc48af53b2a9ebea1b643255be542
+  path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
+  path_provider_linux: 4d630dc393e1f20364f3e3b4a2ff41d9674a84e4
+  path_provider_macos: f760a3c5b04357c380e2fddb6f9db6f3015897e0
 
 PODFILE CHECKSUM: 61f4c6fa41de8ddcb6ae400bc4a781688f4c5f96
 

@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/services.dart';
 import 'package:douyin_flutter/douyin_flutter.dart';
+
+// import 'package:dio/dio.dart';
+// import 'package:path_provider/path_provider.dart';
+// import 'package:gallery_saver/gallery_saver.dart';
 
 void main() {
   runApp(MyApp());
@@ -17,12 +22,13 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
   String _result = 'no result';
+  String path = '';
 
   @override
   void initState() {
     super.initState();
     initPlatformState();
-    _result = 'no result';
+    _result = 'no result';    
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
@@ -42,7 +48,6 @@ class _MyAppState extends State<MyApp> {
 
     // String code = await DouyinFlutter.login();
     // print(code);
-    
 
     setState(() {
       _platformVersion = platformVersion;
@@ -51,8 +56,8 @@ class _MyAppState extends State<MyApp> {
 
   void _login() async {
     // if (Platform.isAndroid) {
-    var aaa = await DouyinFlutter.register('awsxdh3k1fiojgnu');
-      // _result = result.toString();
+    var aaa = await DouyinFlutter.register('aw7s2ldh685lr0gz');
+    // _result = result.toString();
     // }
     print(aaa);
     var result = await DouyinFlutter.login();
@@ -61,9 +66,11 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _share() async {
+    print(path.toString());
+    DouyinFlutter.register('aw7s2ldh685lr0gz');
     var result = await DouyinFlutter.share({
       'share_type': 'image',
-      'data': '',
+      'video_path': path.toString(),
     });
     _result = result.toString();
     print(_result);
