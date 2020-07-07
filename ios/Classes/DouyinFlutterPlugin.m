@@ -47,7 +47,7 @@
     [req sendAuthRequestViewController:rootViewController completeBlock:^(BDOpenPlatformAuthResponse * _Nonnull resp) {
         NSString *alertString = nil;
         if (resp.errCode == 0) {
-            alertString = [NSString stringWithFormat:@"Author Success Code : %@, permission : %@",resp.code, resp.grantedPermissions];
+            alertString = [NSString stringWithFormat:@"%@|%@",resp.code, resp.grantedPermissions];
         } else{
             alertString = [NSString stringWithFormat:@"Author failed code : %@, msg : %@",@(resp.errCode), resp.errString];
         }
