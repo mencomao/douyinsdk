@@ -41,16 +41,19 @@
     
     DouyinOpenSDKAuthRequest *req = [[DouyinOpenSDKAuthRequest alloc] init];
     req.permissions = [NSOrderedSet orderedSetWithObject:@"user_info"];
-    
+    NSLog(@"This here1===login===");
     UIViewController *rootViewController =
       [UIApplication sharedApplication].delegate.window.rootViewController;
     [req sendAuthRequestViewController:rootViewController completeBlock:^(BDOpenPlatformAuthResponse * _Nonnull resp) {
         NSString *alertString = nil;
+        NSLog(@"This here2===login===");
         if (resp.errCode == 0) {
             alertString = [NSString stringWithFormat:@"%@|%@",resp.code, resp.grantedPermissions];
         } else{
             alertString = [NSString stringWithFormat:@"Author failed code : %@, msg : %@",@(resp.errCode), resp.errString];
         }
+        NSLog(@"This here===login===");
+        NSLog(@"This here1%@",alertString);
         result(alertString);
     }];
   }
