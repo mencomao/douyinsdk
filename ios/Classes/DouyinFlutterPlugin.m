@@ -35,37 +35,28 @@
     result(nil);
   }
   // Login via douyin
-  else if ([@"login" isEqualToString:call.method]) {
-    // NSString* scope= arguments[@"user_info"];
-    // NSString* state= arguments[@"state"];
-    
+  else if ([@"login" isEqualToString:call.method]) {    
     DouyinOpenSDKAuthRequest *req = [[DouyinOpenSDKAuthRequest alloc] init];
     req.permissions = [NSOrderedSet orderedSetWithObject:@"user_info"];
-    NSLog(@"This here1===login===");
     UIViewController *rootViewController =
       [UIApplication sharedApplication].delegate.window.rootViewController;
     [req sendAuthRequestViewController:rootViewController completeBlock:^(BDOpenPlatformAuthResponse * _Nonnull resp) {
         NSString *alertString = nil;
-        NSLog(@"This here2===login===");
         if (resp.errCode == 0) {
-            alertString = [NSString stringWithFormat:@"%@|%@",resp.code, resp.grantedPermissions];
+            alertString = [NSString stringWithFormat:@"%@",resp.code];
         } else{
             alertString = [NSString stringWithFormat:@"Author failed code : %@, msg : %@",@(resp.errCode), resp.errString];
         }
-        NSLog(@"This here===login===");
-        NSLog(@"This here1%@",alertString);
         result(alertString);
     }];
   }
-  // douyin share 只能分享图片或者视频
+  // douyin share 暂未实现，后续项目使用了在完善
   else if ([@"share" isEqualToString:call.method]) {
     NSString* share_type= arguments[@"share_type"];
     NSMutableArray *data = [NSMutableArray array];
 
     [data addObject:arguments[@"video_path"]];
     
-    NSLog(@"This here");
-    NSLog(@"path %@",arguments[@"video_path"]);
     DouyinOpenSDKShareRequest *req = [[DouyinOpenSDKShareRequest alloc] init];
     if ([@"image" isEqualToString:share_type]) {
       req.mediaType = BDOpenPlatformShareMediaTypeImage;
@@ -75,10 +66,8 @@
     req.localIdentifiers = data;
     // req.hashtag = @"变脸挑战";
     req.state = @"a47e57c6c559acb88a9569da66ee5f65e0f779c9";
-    NSLog(@"This here1");
     [req sendShareRequestWithCompleteBlock:^(BDOpenPlatformShareResponse * _Nonnull respond) {
         NSString *alertString = nil;
-        NSLog(@"This here2222");
         if (respond.errCode == 0) {
             //  Share Succeed
             alertString = [NSString stringWithFormat:@"Share Success"];
@@ -86,7 +75,6 @@
             //  Share failed
             alertString = [NSString stringWithFormat:@"Share failed error code : %@ , error msg : %@", @(respond.errCode), respond.errString];
         }
-        NSLog(@"This here2");
         result(alertString);
     }];
 
