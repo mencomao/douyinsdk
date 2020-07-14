@@ -6,6 +6,8 @@
       methodChannelWithName:@"douyin_flutter"
             binaryMessenger:[registrar messenger]];
   DouyinFlutterPlugin* instance = [[DouyinFlutterPlugin alloc] init];
+//[[DouyinOpenSDKApplicationDelegate sharedInstance] ap]
+  [registrar addApplicationDelegate:instance];
   [registrar addMethodCallDelegate:instance channel:channel];
 }
 
@@ -38,8 +40,7 @@
   else if ([@"login" isEqualToString:call.method]) {    
     DouyinOpenSDKAuthRequest *req = [[DouyinOpenSDKAuthRequest alloc] init];
     req.permissions = [NSOrderedSet orderedSetWithObject:@"user_info"];
-    UIViewController *rootViewController =
-      [UIApplication sharedApplication].delegate.window.rootViewController;
+    UIViewController *rootViewController = [self topViewController];
     [req sendAuthRequestViewController:rootViewController completeBlock:^(BDOpenPlatformAuthResponse * _Nonnull resp) {
         NSString *alertString = nil;
         if (resp.errCode == 0) {
@@ -65,7 +66,7 @@
     }
     req.localIdentifiers = data;
     // req.hashtag = @"变脸挑战";
-    req.state = @"a47e57c6c559acb88a9569da66ee5f65e0f779c9";
+    // req.state = @"a47e57c6c559acb88a9569da66ee5f65e0f779c9";
     [req sendShareRequestWithCompleteBlock:^(BDOpenPlatformShareResponse * _Nonnull respond) {
         NSString *alertString = nil;
         if (respond.errCode == 0) {
@@ -86,4 +87,69 @@
   }
 }
 
+- (BOOL)application:(nonnull UIApplication *)application
+    didFinishLaunchingWithOptions:(nonnull NSDictionary *)launchOptions {
+      [[DouyinOpenSDKApplicationDelegate sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
+      return YES;
+    }
+
+- (BOOL)application:(UIApplication *)application openURL:(nonnull NSURL *)url options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+    
+    if ([[DouyinOpenSDKApplicationDelegate sharedInstance] application:application openURL:url sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey] annotation:options[UIApplicationOpenURLOptionsAnnotationKey]]
+        ) {
+        return YES;
+    }
+    
+    return NO;
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    
+    if ([[DouyinOpenSDKApplicationDelegate sharedInstance] application:application openURL:url sourceApplication:sourceApplication annotation:annotation]) {
+        return YES;
+    }
+    
+    return NO;
+}
+    
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+{
+    if ([[DouyinOpenSDKApplicationDelegate sharedInstance] application:application openURL:url sourceApplication:nil annotation:nil]) {
+        return YES;
+    }
+    return NO;
+}
+
+- (UIViewController *)topViewController {
+  return [self topViewControllerFromViewController:[UIApplication sharedApplication]
+                                                       .keyWindow.rootViewController];
+}
+/**
+ * This method recursively iterate through the view hierarchy
+ * to return the top most view controller.
+ *
+ * It supports the following scenarios:
+ *
+ * - The view controller is presenting another view.
+ * - The view controller is a UINavigationController.
+ * - The view controller is a UITabBarController.
+ *
+ * @return The top most view controller.
+ */
+- (UIViewController *)topViewControllerFromViewController:(UIViewController *)viewController {
+  if ([viewController isKindOfClass:[UINavigationController class]]) {
+    UINavigationController *navigationController = (UINavigationController *)viewController;
+    return [self
+        topViewControllerFromViewController:[navigationController.viewControllers lastObject]];
+  }
+  if ([viewController isKindOfClass:[UITabBarController class]]) {
+    UITabBarController *tabController = (UITabBarController *)viewController;
+    return [self topViewControllerFromViewController:tabController.selectedViewController];
+  }
+  if (viewController.presentedViewController) {
+    return [self topViewControllerFromViewController:viewController.presentedViewController];
+  }
+  return viewController;
+}
 @end

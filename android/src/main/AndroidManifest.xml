@@ -6,6 +6,8 @@
         android:supportsRtl="true">
         <activity
             android:name=".ResultActivity"
+            android:exported="true"
+            android:launchMode="singleInstance"
             />
         <activity
             android:name=".DouYinEntryActivity"
