@@ -15,7 +15,7 @@ import com.bytedance.sdk.open.douyin.DouYinOpenApiFactory;
 import com.bytedance.sdk.open.douyin.api.DouYinOpenApi;
 
 
-public class ResultActivity extends Activity{
+public class ResultActivity extends Activity implements IApiEventHandler {
   DouYinOpenApi douYinOpenApi;
 
   @Override
