@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'douyin_flutter'
-  s.version          = '0.1.6'
+  s.version          = '0.1.7'
   s.summary          = 'A new flutter plugin project.'
   s.description      = <<-DESC
 A new flutter plugin project.
@@ -15,8 +15,14 @@ A new flutter plugin project.
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.public_header_files = 'Classes/**/*.h'
+  s.static_framework = true
   s.dependency 'Flutter'
   s.dependency 'DouyinOpenSDK', '~> 3.0.0'
+
+  s.frameworks = ["SystemConfiguration", "CoreTelephony","WebKit"]
+  s.libraries = ["z", "sqlite3.0", "c++"]
+  s.preserve_paths = 'Lib/*.a'
+  s.vendored_libraries = "**/*.a"
   s.platform = :ios, '8.0'
 
   # Flutter.framework does not contain a i386 slice. Only x86_64 simulators are supported.
