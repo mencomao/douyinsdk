@@ -4,14 +4,9 @@
   <application
         android:allowBackup="true"
         android:supportsRtl="true">
-        <activity
-            android:name=".ResultActivity"
-            android:exported="true"
-            android:launchMode="singleInstance"
-            />
-        <activity
-            android:name=".DouYinEntryActivity"
-            android:exported="true"
-            android:launchMode="singleInstance"></activity>
+      <activity
+          android:name="com.bytedance.sdk.share.demo.douyinapi.DouYinEntryActivity"
+          android:exported="true"
+          android:launchMode="singleInstance"/>
     </application>
 </manifest>

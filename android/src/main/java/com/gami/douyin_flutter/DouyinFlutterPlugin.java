@@ -43,12 +43,17 @@ public class DouyinFlutterPlugin implements FlutterPlugin, MethodCallHandler,
   ///
   /// This local reference serves to register the plugin with the Flutter Engine and unregister it
   /// when the Flutter Engine is detached from the Activity
-  private MethodChannel channel;
+  private static MethodChannel channel;
   private static Registrar registrar;
   private static Result _result;
   private Activity mActivity;
   private Context context;
-  
+
+  public static void sendAuthCode(String code){
+    if(channel!=null){
+      channel.invokeMethod("onAuthResut",code);
+    }
+  }
 
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
@@ -92,6 +97,7 @@ public class DouyinFlutterPlugin implements FlutterPlugin, MethodCallHandler,
       Authorization.Request request = new Authorization.Request();
       request.scope = "user_info";                          // 用户授权时必选权限
       request.state = "ww";
+      request.callerLocalEntry="com.bytedance.sdk.share.demo.douyinapi.DouYinEntryActivity";
       douyinOpenApi.authorize(request);
 
       // result.success(r);

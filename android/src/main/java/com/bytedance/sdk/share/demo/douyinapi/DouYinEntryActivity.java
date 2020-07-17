@@ -14,6 +14,7 @@ import com.bytedance.sdk.open.aweme.common.model.BaseResp;
 import com.bytedance.sdk.open.aweme.share.Share;
 import com.bytedance.sdk.open.douyin.DouYinOpenApiFactory;
 import com.bytedance.sdk.open.douyin.api.DouYinOpenApi;
+import com.gami.douyin_flutter.DouyinFlutterPlugin;
 // import com.bytedance.sdk.share.demo.MainActivity;
 
 /**
@@ -41,7 +42,10 @@ public class DouYinEntryActivity extends Activity implements IApiEventHandler {
 
   @Override
   public void onResp(BaseResp resp) {
-    System.out.println("adassadasdasdasdasdasdasdasd");
+    System.out.println("resp.errorCode:"+resp.errorCode);
+    System.out.println("resp.errorMsg:"+resp.errorMsg);
+    System.out.println("resp.extras:"+resp.extras);
+
     if (resp.getType() == CommonConstants.ModeType.SHARE_CONTENT_TO_TT_RESP) {
       Share.Response response = (Share.Response) resp;
       Toast.makeText(this, " code：" + response.errorCode + " 文案：" + response.errorMsg, Toast.LENGTH_SHORT).show();
@@ -52,11 +56,15 @@ public class DouYinEntryActivity extends Activity implements IApiEventHandler {
       Intent intent = null;
       if (resp.isSuccess()) {
 
-        Toast.makeText(this, "授权成功，获得权限：" + response.grantedPermissions, Toast.LENGTH_LONG).show();
-
+        Toast.makeText(this, "授权成功，获得权限：" + response.authCode, Toast.LENGTH_LONG).show();
+        DouyinFlutterPlugin.sendAuthCode(response.authCode);
+      }else{
+        Toast.makeText(this, "获取失败！" + response.authCode, Toast.LENGTH_LONG).show();
+        DouyinFlutterPlugin.sendAuthCode(null);
       }
     }
-    Toast.makeText(this, "授权成功，获得权限：", Toast.LENGTH_LONG).show();
+
+    finish();
 
   }
 
