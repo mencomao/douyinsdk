@@ -28,7 +28,25 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     initPlatformState();
-    _result = 'no result';    
+    _result = 'no result';
+
+    DouyinFlutter.listenAuth().listen((event) {
+        if(event!=null){
+          setState(() {
+            _result='抖音登录成功,code=$event';
+          });
+        }else{
+          setState(() {
+            _result='抖音登录失败';
+          });
+        }
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    DouyinFlutter.unListenAuth();
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.

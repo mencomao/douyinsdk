@@ -3,7 +3,8 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 
 class DouyinFlutter {
-  static const MethodChannel _channel = const MethodChannel('douyin_flutter');
+  static MethodChannel _channel =  MethodChannel('douyin_flutter')
+    ..setMethodCallHandler(_onMethodCall);
 
   static Future<String> get platformVersion async {
     final String version = await _channel.invokeMethod('getPlatformVersion');
@@ -46,5 +47,25 @@ class DouyinFlutter {
     var result = await _channel.invokeMethod('share', arguments);
 
     return result;
+  }
+
+  static Future _onMethodCall(MethodCall methodCall) {
+    if (methodCall.method == 'onAuthResut') {
+      _streamController?.add(methodCall.arguments);
+    }
+
+    return Future.value();
+  }
+
+  static StreamController<String> _streamController;
+
+  static Stream listenAuth() {
+    _streamController = new StreamController<String>();
+    return _streamController.stream;
+  }
+
+  static void unListenAuth() {
+    _streamController?.close();
+    _streamController=null;
   }
 }

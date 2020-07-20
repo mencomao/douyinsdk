@@ -56,10 +56,10 @@ public class DouYinEntryActivity extends Activity implements IApiEventHandler {
       Intent intent = null;
       if (resp.isSuccess()) {
 
-        Toast.makeText(this, "授权成功，获得权限：" + response.authCode, Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, "授权成功，获得权限：" + response.authCode, Toast.LENGTH_LONG).show();
         DouyinFlutterPlugin.sendAuthCode(response.authCode);
       }else{
-        Toast.makeText(this, "获取失败！" + response.authCode, Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, "获取失败！" + response.authCode, Toast.LENGTH_LONG).show();
         DouyinFlutterPlugin.sendAuthCode(null);
       }
     }
