@@ -36,133 +36,126 @@ import com.bytedance.sdk.open.douyin.api.DouYinOpenApi;
 
 // import com.gami.douyin_flutter.ResultActivity;
 
-/** DouyinFlutterPlugin */
-public class DouyinFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
-    PluginRegistry.ActivityResultListener, ActivityAware {
-  /// The MethodChannel that will the communication between Flutter and native Android
-  ///
-  /// This local reference serves to register the plugin with the Flutter Engine and unregister it
-  /// when the Flutter Engine is detached from the Activity
-  private static MethodChannel channel;
-  private static Registrar registrar;
-  private static Result _result;
-  private Activity mActivity;
-  private Context context;
+/**
+ * DouyinFlutterPlugin
+ */
+public class DouyinFlutterPlugin implements FlutterPlugin, MethodCallHandler,
+        PluginRegistry.ActivityResultListener, ActivityAware {
+    /// The MethodChannel that will the communication between Flutter and native Android
+    ///
+    /// This local reference serves to register the plugin with the Flutter Engine and unregister it
+    /// when the Flutter Engine is detached from the Activity
+    private static MethodChannel channel;
+    private static Registrar registrar;
+    private static Result _result;
+    private Activity mActivity;
+    private Context context;
 
-  public static void sendAuthCode(String code){
-    if(channel!=null){
-      channel.invokeMethod("onAuthResut",code);
-    }
-  }
-
-  @Override
-  public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
-    channel = new MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), "douyin_flutter");
-    channel.setMethodCallHandler(this);
-    this.context = flutterPluginBinding.getApplicationContext();
-  }
-
-  // This static function is optional and equivalent to onAttachedToEngine. It supports the old
-  // pre-Flutter-1.12 Android projects. You are encouraged to continue supporting
-  // plugin registration via this function while apps migrate to use the new Android APIs
-  // post-flutter-1.12 via https://flutter.dev/go/android-project-migration.
-  //
-  // It is encouraged to share logic between onAttachedToEngine and registerWith to keep
-  // them functionally equivalent. Only one of onAttachedToEngine or registerWith will be called
-  // depending on the user's project. onAttachedToEngine or registerWith must both be defined
-  // in the same class.
-  public static void registerWith(Registrar registrar) {
-    DouyinFlutterPlugin.registrar = registrar;
-    final DouyinFlutterPlugin plugin = new DouyinFlutterPlugin();
-    final MethodChannel channel = new MethodChannel(registrar.messenger(), "douyin_flutter");
-    channel.setMethodCallHandler(plugin);
-    registrar.addActivityResultListener(plugin);
-  }
-
-  @Override
-  public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
-    if (call.method.equals("getPlatformVersion")) {
-      result.success("Android " + android.os.Build.VERSION.RELEASE);
+    public static void sendAuthCode(String code) {
+        if (channel != null) {
+            channel.invokeMethod("onAuthResut", code);
+        }
     }
 
-    else if (call.method.equals("register")) {
-      String clientid = call.argument("appid").toString();
-      DouYinOpenApiFactory.init(new DouYinOpenConfig(clientid));
-      result.success(clientid);
+    @Override
+    public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
+        channel = new MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), "douyin_flutter");
+        channel.setMethodCallHandler(this);
+        this.context = flutterPluginBinding.getApplicationContext();
     }
 
-    else if (call.method.equals("login")) {
-      // System.out.println("===>login!");
-      DouYinOpenApi douyinOpenApi = DouYinOpenApiFactory.create(this.mActivity);
-      Authorization.Request request = new Authorization.Request();
-      request.scope = "user_info";                          // 用户授权时必选权限
-      request.state = "ww";
-      request.callerLocalEntry="com.bytedance.sdk.share.demo.douyinapi.DouYinEntryActivity";
-      douyinOpenApi.authorize(request);
-
-      // result.success(r);
-      // System.out.println("===>login3!");
-      // Intent apiIntent = new Intent(this.mActivity,ResultActivity.class);
-      // this.mActivity.startActivity(apiIntent);
-      // douyinOpenApi.handleIntent(apiIntent, this);
-      // System.out.println(this.mActivity.getClass());
-      // this.mActivity.startActivityForResult(apiIntent, 0);
+    // This static function is optional and equivalent to onAttachedToEngine. It supports the old
+    // pre-Flutter-1.12 Android projects. You are encouraged to continue supporting
+    // plugin registration via this function while apps migrate to use the new Android APIs
+    // post-flutter-1.12 via https://flutter.dev/go/android-project-migration.
+    //
+    // It is encouraged to share logic between onAttachedToEngine and registerWith to keep
+    // them functionally equivalent. Only one of onAttachedToEngine or registerWith will be called
+    // depending on the user's project. onAttachedToEngine or registerWith must both be defined
+    // in the same class.
+    public static void registerWith(Registrar registrar) {
+        DouyinFlutterPlugin.registrar = registrar;
+        final DouyinFlutterPlugin plugin = new DouyinFlutterPlugin();
+        final MethodChannel channel = new MethodChannel(registrar.messenger(), "douyin_flutter");
+        channel.setMethodCallHandler(plugin);
+        registrar.addActivityResultListener(plugin);
     }
 
-    else if (call.method.equals("share")) {
-      DouYinOpenApi douyinOpenApi = DouYinOpenApiFactory.create(this.mActivity);
+    @Override
+    public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
+        if (call.method.equals("getPlatformVersion")) {
+            result.success("Android " + android.os.Build.VERSION.RELEASE);
+        } else if (call.method.equals("register")) {
+            String clientid = call.argument("appid").toString();
+            DouYinOpenApiFactory.init(new DouYinOpenConfig(clientid));
+            result.success(clientid);
+        } else if (call.method.equals("login")) {
+            // System.out.println("===>login!");
+            DouYinOpenApi douyinOpenApi = DouYinOpenApiFactory.create(this.mActivity);
+            Authorization.Request request = new Authorization.Request();
+            request.scope = "user_info";                          // 用户授权时必选权限
+            request.state = "ww";
+            request.callerLocalEntry = "com.bytedance.sdk.share.demo.douyinapi.DouYinEntryActivity";
+            douyinOpenApi.authorize(request);
+        } else if (call.method.equals("getShareVideoToken")) {
+            DouYinOpenApi douyinOpenApi = DouYinOpenApiFactory.create(this.mActivity);
+            Authorization.Request request = new Authorization.Request();
+            request.scope = "video.create";                          // 用户授权时必选权限
+            request.state = "ww";
+            request.callerLocalEntry = "com.bytedance.sdk.share.demo.douyinapi.DouYinEntryActivity";
+            douyinOpenApi.authorize(request);
+        } else if (call.method.equals("share")) {
+            DouYinOpenApi douyinOpenApi = DouYinOpenApiFactory.create(this.mActivity);
 
-      // 初始化资源路径，路径请提供绝对路径.demo里有获取绝对路径的util代码
-      Share.Request request = new Share.Request();
+            // 初始化资源路径，路径请提供绝对路径.demo里有获取绝对路径的util代码
+            Share.Request request = new Share.Request();
 
-      douyinOpenApi.share(request);
+            douyinOpenApi.share(request);
+        } else {
+            result.notImplemented();
+        }
     }
 
-    else {
-      result.notImplemented();
+    @Override
+    public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
+
+        channel.setMethodCallHandler(null);
     }
-  }
 
-  @Override
-  public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
-    
-    channel.setMethodCallHandler(null);
-  }
+    @Override
+    public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 0) {
 
-  @Override
-  public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
-    if (requestCode == 0) {
-
-      return true;
+            return true;
+        }
+        return true;
     }
-    return true;
-  }
-  
-  @Override
-  public void onAttachedToActivity(ActivityPluginBinding activityPluginBinding) {
-    // TODO: your plugin is now attached to an Activity
-    this.mActivity = activityPluginBinding.getActivity();
-    
-    activityPluginBinding.addActivityResultListener(this);
-  }
 
-  @Override
-  public void onDetachedFromActivityForConfigChanges() {
-    // TODO: the Activity your plugin was attached to was destroyed to change
-    // configuration.
-    // This call will be followed by onReattachedToActivityForConfigChanges().
-    this.mActivity = null;
-  }
+    @Override
+    public void onAttachedToActivity(ActivityPluginBinding activityPluginBinding) {
+        // TODO: your plugin is now attached to an Activity
+        this.mActivity = activityPluginBinding.getActivity();
 
-  @Override
-  public void onReattachedToActivityForConfigChanges(ActivityPluginBinding activityPluginBinding) {
-    // TODO: your plugin is now attached to a new Activity after a configuration
-    // change.
-  }
+        activityPluginBinding.addActivityResultListener(this);
+    }
 
-  @Override
-  public void onDetachedFromActivity() {
-    // TODO: your plugin is no longer associated with an Activity. Clean up
-    // references.
-  }  
+    @Override
+    public void onDetachedFromActivityForConfigChanges() {
+        // TODO: the Activity your plugin was attached to was destroyed to change
+        // configuration.
+        // This call will be followed by onReattachedToActivityForConfigChanges().
+        this.mActivity = null;
+    }
+
+    @Override
+    public void onReattachedToActivityForConfigChanges(ActivityPluginBinding activityPluginBinding) {
+        // TODO: your plugin is now attached to a new Activity after a configuration
+        // change.
+    }
+
+    @Override
+    public void onDetachedFromActivity() {
+        // TODO: your plugin is no longer associated with an Activity. Clean up
+        // references.
+    }
 }

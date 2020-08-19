@@ -31,6 +31,10 @@ class DouyinFlutter {
     return result;
   }
 
+  static void getVideoShareToken(){
+    _channel.invokeMethod('getShareVideoToken');
+  }
+
   static Future<dynamic> login() async {
     // arguments['scope'] = arguments['scope'] ?? 'user_info';
 
