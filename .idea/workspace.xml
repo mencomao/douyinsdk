@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="05d0de4d-acec-41fc-beab-f3c7b735f53d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/src/main/java/com/gami/douyin_flutter/DouyinFlutterPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/com/gami/douyin_flutter/DouyinFlutterPlugin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Classes/DouyinFlutterPlugin.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/DouyinFlutterPlugin.m" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/douyin_flutter.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/douyin_flutter.dart" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />

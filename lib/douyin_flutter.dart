@@ -63,7 +63,7 @@ class DouyinFlutter {
 
   static StreamController<String> _streamController;
 
-  static Stream listenAuth() {
+  static Stream<String> listenAuth() {
     _streamController = new StreamController<String>();
     return _streamController.stream;
   }

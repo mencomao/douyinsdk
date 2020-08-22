@@ -50,7 +50,20 @@
         }
         result(alertString);
     }];
-  }
+  }else if ([@"getShareVideoToken" isEqualToString:call.method]) {    //only get the code for sharing videos;
+       DouyinOpenSDKAuthRequest *req = [[DouyinOpenSDKAuthRequest alloc] init];
+       req.permissions = [NSOrderedSet orderedSetWithObject:@"video.create"];
+       UIViewController *rootViewController = [self topViewController];
+       [req sendAuthRequestViewController:rootViewController completeBlock:^(BDOpenPlatformAuthResponse * _Nonnull resp) {
+           NSString *alertString = nil;
+           if (resp.errCode == 0) {
+               alertString = [NSString stringWithFormat:@"%@",resp.code];
+           } else{
+               alertString = [NSString stringWithFormat:@"Author failed code : %@, msg : %@",@(resp.errCode), resp.errString];
+           }
+           result(alertString);
+       }];
+     }
   // douyin share 暂未实现，后续项目使用了在完善
   else if ([@"share" isEqualToString:call.method]) {
     NSString* share_type= arguments[@"share_type"];
