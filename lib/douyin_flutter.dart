@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 
 class DouyinFlutter {
-  static MethodChannel _channel =  MethodChannel('douyin_flutter')
+  static MethodChannel _channel = MethodChannel('douyin_flutter')
     ..setMethodCallHandler(_onMethodCall);
 
   static Future<String> get platformVersion async {
@@ -31,8 +31,9 @@ class DouyinFlutter {
     return result;
   }
 
-  static void getVideoShareToken(){
-    _channel.invokeMethod('getShareVideoToken');
+  static Future<dynamic> getVideoShareToken() async {
+    var result = await _channel.invokeMethod('getShareVideoToken');
+    return result;
   }
 
   static Future<dynamic> login() async {
@@ -70,6 +71,6 @@ class DouyinFlutter {
 
   static void unListenAuth() {
     _streamController?.close();
-    _streamController=null;
+    _streamController = null;
   }
 }
