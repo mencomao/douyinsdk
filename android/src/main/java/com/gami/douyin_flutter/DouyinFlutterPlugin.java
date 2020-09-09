@@ -104,7 +104,15 @@ public class DouyinFlutterPlugin implements FlutterPlugin, MethodCallHandler,
             request.state = "ww";
             request.callerLocalEntry = "com.bytedance.sdk.share.demo.douyinapi.DouYinEntryActivity";
             douyinOpenApi.authorize(request);
-        } else if (call.method.equals("share")) {
+        }  else if (call.method.equals("getAccessTokenByScope")) {
+            String scope = call.argument("scope").toString();
+            DouYinOpenApi douyinOpenApi = DouYinOpenApiFactory.create(this.mActivity);
+            Authorization.Request request = new Authorization.Request();
+            request.scope = scope;                          // 用户授权时必选权限
+            request.state = "ww";
+            request.callerLocalEntry = "com.bytedance.sdk.share.demo.douyinapi.DouYinEntryActivity";
+            douyinOpenApi.authorize(request);
+        }else if (call.method.equals("share")) {
             DouYinOpenApi douyinOpenApi = DouYinOpenApiFactory.create(this.mActivity);
 
             // 初始化资源路径，路径请提供绝对路径.demo里有获取绝对路径的util代码

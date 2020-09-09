@@ -36,6 +36,11 @@ class DouyinFlutter {
     return result;
   }
 
+  static Future<dynamic> getAccessTokenByScope(Map<String, dynamic> arguments) async {
+    var result = await _channel.invokeMethod('getAccessTokenByScope',arguments);
+    return result;
+  }
+
   static Future<dynamic> login() async {
     // arguments['scope'] = arguments['scope'] ?? 'user_info';
 
