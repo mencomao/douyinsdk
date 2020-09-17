@@ -46,7 +46,7 @@
         if (resp.errCode == 0) {
             alertString = [NSString stringWithFormat:@"%@",resp.code];
         } else{
-            alertString = [NSString stringWithFormat:@"Author failed code : %@, msg : %@",@(resp.errCode), resp.errString];
+            //alertString = [NSString stringWithFormat:@"Author failed code : %@, msg : %@",@(resp.errCode), resp.errString];
         }
         result(alertString);
     }];
@@ -59,7 +59,7 @@
            if (resp.errCode == 0) {
                alertString = [NSString stringWithFormat:@"%@",resp.code];
            } else{
-               alertString = [NSString stringWithFormat:@"Author failed code : %@, msg : %@",@(resp.errCode), resp.errString];
+               //alertString = [NSString stringWithFormat:@"Author failed code : %@, msg : %@",@(resp.errCode), resp.errString];
            }
            result(alertString);
        }];
@@ -72,7 +72,7 @@
                  if (resp.errCode == 0) {
                      alertString = [NSString stringWithFormat:@"%@",resp.code];
                  } else{
-                     alertString = [NSString stringWithFormat:@"Author failed code : %@, msg : %@",@(resp.errCode), resp.errString];
+                     //alertString = [NSString stringWithFormat:@"Author failed code : %@, msg : %@",@(resp.errCode), resp.errString];
                  }
                  result(alertString);
              }];
